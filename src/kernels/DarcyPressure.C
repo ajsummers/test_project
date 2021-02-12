@@ -10,13 +10,13 @@ DarcyPressure::validParams()
   params.addClassDescription("Compute the diffusion term for Darcy pressure ($p$) equation: "
                              "$-\\nabla \\cdot \\frac{\\mathbf{K}}{\\mu} \\nabla p = 0$");
   // Required parameter. MOOSE will error if not provided in input file
-  params.addRequiredParam<Real>("permeability", "The isotropic permeability ($K$) of the medium.");
-  // Optional parameter w/ default value
-  params.addParam<Real>(
-    "viscosity",
-    7.98e-04,
-    "The dynamic viscosity ($\\mu$) of the fluid, the default value is that of water at 30 "
-    "degrees Celcius (7.98e-04 Pa-s).");
+  // params.addRequiredParam<Real>("permeability", "The isotropic permeability ($K$) of the medium.");
+  // // Optional parameter w/ default value
+  // params.addParam<Real>(
+  //   "viscosity",
+  //   7.98e-04,
+  //   "The dynamic viscosity ($\\mu$) of the fluid, the default value is that of water at 30 "
+  //   "degrees Celcius (7.98e-04 Pa-s).");
 
   return params;
 }
