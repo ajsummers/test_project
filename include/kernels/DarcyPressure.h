@@ -1,12 +1,12 @@
 #pragma once
 
 // Including the "ADKernel" base class here so we can extend it
-#include "ADKernelGrad.h"
+#include "ADKernel.h"
 
 /**
  * Computes the residual contribution: K / mu * grad_test * grad_u.
  */
-class DarcyPressure : public ADKernelGrad
+class DarcyPressure : public ADKernel
 {
 public:
   static InputParameters validParams();
@@ -15,9 +15,10 @@ public:
 
 protected:
   /// ADKernel objects must override precomputeQpResidual
-  virtual ADRealVectorValue precomputeQpResidual() override;
+  virtual ADReal computeQpResidual() override;
 
   /// The variables which hold the value for K and mu
-  const Real & _permeability;
-  const Real & _viscosity;
+  /// Updated to take in material properties
+  const ADMaterialProperty<Real> & _permeability;
+  const ADMaterialProperty<Real> & _viscosity;
 };

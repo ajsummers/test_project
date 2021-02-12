@@ -6,7 +6,7 @@ registerMooseObject("test_projectApp", DarcyPressure);
 InputParameters
 DarcyPressure::validParams()
 {
-  InputParameters params = ADKernelGrad::validParams();
+  InputParameters params = ADKernel::validParams();
   params.addClassDescription("Compute the diffusion term for Darcy pressure ($p$) equation: "
                              "$-\\nabla \\cdot \\frac{\\mathbf{K}}{\\mu} \\nabla p = 0$");
   // Required parameter. MOOSE will error if not provided in input file
@@ -22,18 +22,16 @@ DarcyPressure::validParams()
 }
 
 DarcyPressure::DarcyPressure(const InputParameters & parameters)
-  : ADKernelGrad(parameters),
+  : ADKernel(parameters),
 
     // Set the coefficients for the pressure kernel
-    _permeability(getParam<Real>("permeability")),
-    _viscosity(getParam<Real>("viscosity"))
+    _permeability(getADMaterialProperty<Real>("permeability")),
+    _viscosity(getADMaterialProperty<Real>("viscosity"))
 {
-  if (_viscosity == 0)
-    paramError("viscosity", "The viscosity must be a non-zero real number.");
 }
 
-ADRealVectorValue
-DarcyPressure::precomputeQpResidual()
+ADReal
+DarcyPressure::computeQpResidual()
 {
-  return (_permeability / _viscosity) * _grad_u[_qp];
+  return (_permeability[_qp] / _viscosity[_qp]) * _grad_test[_i][_qp] * _grad_u[_qp];
 }
