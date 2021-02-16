@@ -10,7 +10,6 @@
 
 [Variables]
     [temperature]
-        initial_condition = 300 # Start at room temperature
     []
 []
 
